@@ -7,6 +7,32 @@ $(function(){
         }, 500);
     });
 
+    $('[data-modal]').on('click', function() {
+        var target = $(this).attr('data-modal');
+
+        $.fancybox.open({
+            src: target
+        });
+    });
+
+    $('.form__btn[type="submit"]').on('click', function(e) {
+        e.preventDefault();
+
+        var form = $(this).parent(),
+            errors = false;
+
+        $(form).find('.form__field_error').removeClass('form__field_error');
+
+        $(form).find('.form__field input').each(function(i, el) {
+            if ($(el).val().trim() === '') {
+                $(el).parent().addClass('form__field_error');
+                errors = true;
+            }
+        })
+
+        if (errors) return;
+
+    });
 
     $('.step__title').on('click', function() {
         $(this).parent().toggleClass('step_open');
@@ -20,13 +46,6 @@ $(function(){
         $(el).css('animation-delay', '.' + i + 's');
         $(el).css('animation-play-state', 'running');
     });
-
-    if ($(window).width() <= 768) {
-        $('.service').mCustomScrollbar({
-            axis: 'x',
-            setWidth: 282
-        });
-    }
 
 
     // landing aniamtions
@@ -54,5 +73,10 @@ $(function(){
         
         $(filter).attr('stdDeviation', val);
     }, 200)
+
+    $('.menu-btn').on('click', function() {
+        $(this).toggleClass('menu-btn_open');
+        $('.menu').finish().slideToggle();
+    });
 
 });
